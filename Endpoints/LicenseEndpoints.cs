@@ -6,7 +6,9 @@ using LicenseGenerator.Api.Models;
 namespace LicenseGenerator.Api.Endpoints;
 
 public static class LicensesEndpoints {
+    const string GetLicensesEndpointName = "GetLicenses";
     const string GetLicenseEndpointName = "GetLicense";
+    const string CreateLicenseEndpointName = "CreateLicense";
 
     public static void MapLicensesEndpoints(this WebApplication app){
 
@@ -16,7 +18,7 @@ public static class LicensesEndpoints {
         group.MapGet("/", (LicenseGeneratorContext context) => {
             var licenses = context.Licenses.Find();
         })
-        .WithName(GetLicenseEndpointName);
+        .WithName(GetLicensesEndpointName);
 
 
     // GET /licenses/id
@@ -49,7 +51,7 @@ public static class LicensesEndpoints {
             context.SaveChanges();
                 
             return Results.AcceptedAtRoute(
-                GetLicenseEndpointName,
+                CreateLicenseEndpointName,
                 new LicenseDto(
                     licenses.LicenseID,
                     licenses.LicenseKey,

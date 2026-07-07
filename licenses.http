@@ -1,33 +1,4 @@
-GET http://localhost:5248/license-list
-
-###
-GET http://localhost:5248/license-list/INV23432
-
-###
-POST http://localhost:5248/license-list
-Content-Type: application/json
-
-{   
-    "invoiceID": "INV69420",
-    "name": "Tablet",
-    "model": "IPad Air 5th Gen",
-    "quantity": 1,
-    "purchase_date": "2022-12-28"
-}
-
-###
-# Will return 204: Not Found Status because doesn't need to return anything. Run GET again to see change in values.
-PUT http://localhost:5248/license-list/-1
-Content-Type: application/json
-
-{   
-    "name": "Mobile",
-    "model": "Nothing Phone 3a Pro",
-    "quantity": 1,
-    "purchase_date": "2025-05-25"
-}
-
-###
-# Also returns 204: Not Found Status
-DELETE http://localhost:5248/license-list/INV80085
+### This file is provided as a starting point for testing the API.
+### Update the host/port to match your local environment.
+### Add or modify requests as needed during development.
 

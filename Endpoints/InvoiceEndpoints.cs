@@ -5,7 +5,9 @@ using LicenseGenerator.Api.Models;
 namespace LicenseGenerator.Api.Endpoints;
 
 public static class InvoiceEndpoints {
+    const string GetInvoicesEndpointName = "GetInvoices";
     const string GetInvoiceEndpointName = "GetInvoice";
+    const string CreateInvoiceEndpointName = "CreateInvoice";
     public static void MapInvoiceEndpoints(this WebApplication app){
         
         var group = app.MapGroup("/api/invoice");
@@ -14,7 +16,7 @@ public static class InvoiceEndpoints {
         group.MapGet("/", (LicenseGeneratorContext context) => {
             var invoice = context.Invoices.Find();
         })
-        .WithName(GetInvoiceEndpointName);
+        .WithName(GetInvoicesEndpointName);
 
     // GET /invoice/{id}
         group.MapGet("/{id}", (string id, LicenseGeneratorContext context) => {
@@ -37,7 +39,7 @@ public static class InvoiceEndpoints {
             context.SaveChanges();
 
             return Results.CreatedAtRoute(
-                GetInvoiceEndpointName,
+                CreateInvoiceEndpointName,
                 new { id = invoice.InvoiceID },
                 new InvoiceDto(
                     invoice.InvoiceID,

@@ -47,7 +47,7 @@ namespace LicenseGenerator.Api.Data.Migrations
 
                     b.HasKey("CustomerID");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("LicenseGenerator.Api.Models.Device", b =>
@@ -74,7 +74,7 @@ namespace LicenseGenerator.Api.Data.Migrations
 
                     b.HasIndex("ModelID");
 
-                    b.ToTable("Devices");
+                    b.ToTable("Devices", (string)null);
                 });
 
             modelBuilder.Entity("LicenseGenerator.Api.Models.DeviceModels", b =>
@@ -93,7 +93,7 @@ namespace LicenseGenerator.Api.Data.Migrations
 
                     b.HasKey("ModelId");
 
-                    b.ToTable("DeviceModel");
+                    b.ToTable("DeviceModel", (string)null);
                 });
 
             modelBuilder.Entity("LicenseGenerator.Api.Models.Invoice", b =>
@@ -121,7 +121,7 @@ namespace LicenseGenerator.Api.Data.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Invoices", (string)null);
                 });
 
             modelBuilder.Entity("LicenseGenerator.Api.Models.InvoiceDeviceMapping", b =>
@@ -139,7 +139,7 @@ namespace LicenseGenerator.Api.Data.Migrations
 
                     b.HasIndex("DeviceSerialNumber");
 
-                    b.ToTable("InvoiceDeviceMappings");
+                    b.ToTable("InvoiceDeviceMappings", (string)null);
                 });
 
             modelBuilder.Entity("LicenseGenerator.Api.Models.License", b =>
@@ -178,7 +178,7 @@ namespace LicenseGenerator.Api.Data.Migrations
 
                     b.HasIndex("InvoiceID");
 
-                    b.ToTable("Licenses");
+                    b.ToTable("Licenses", (string)null);
                 });
 
             modelBuilder.Entity("LicenseGenerator.Api.Models.Device", b =>
