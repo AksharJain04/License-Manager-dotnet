@@ -5,7 +5,9 @@ using LicenseGenerator.Api.Models;
 namespace LicenseGenerator.Api.Endpoints;
 
 public static class DeviceEndpoints {
+    const string GetDevicesEndpointName = "GetDevices";
     const string GetDeviceEndpointName = "GetDevice";
+    const string CreateDeviceEndpointName = "CreateDevice";
     public static void MapDeviceEndpoints (this WebApplication app) {
 
         var group  = app.MapGroup("/api/device");
@@ -18,7 +20,7 @@ public static class DeviceEndpoints {
                                 .ToList();
             return Results.Ok(device);       
         })
-        .WithName(GetDeviceEndpointName);
+        .WithName(GetDevicesEndpointName);
 
 
     // GET /device/{id}
@@ -45,7 +47,7 @@ public static class DeviceEndpoints {
             context.SaveChanges();
 
             return Results.CreatedAtRoute(
-                GetDeviceEndpointName,
+                CreateDeviceEndpointName,
                 new { id = device.DeviceID },
                 new DeviceDto(
                     device.DeviceID,

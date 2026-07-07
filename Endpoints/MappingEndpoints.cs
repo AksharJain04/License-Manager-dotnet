@@ -5,7 +5,6 @@ using LicenseGenerator.Api.Models;
 namespace LicenseGenerator.Api.Endpoints;
 
 public static class MappingEndpoints {
-    const string GetMappingEndpoints = "GetMappings";
     public static void MapMappingEndpoints(this WebApplication app){
 
         var group = app.MapGroup("/api/mapping");

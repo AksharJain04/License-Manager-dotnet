@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using LicenseGenerator.Api.Models;
+using LicenseGenerator.Api.LoginModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 namespace LicenseGenerator.Api.Data;
 
-public class LicenseGeneratorContext(DbContextOptions<LicenseGeneratorContext> options) : DbContext(options)
-{   
+public class LicenseGeneratorContext(DbContextOptions<LicenseGeneratorContext> options) : DbContext(options) {   
     public DbSet<DeviceModels> DeviceModel => Set<DeviceModels>();
     public DbSet<Invoice> Invoices => Set<Invoice>();
     public DbSet<Customer> Customers => Set<Customer>();
@@ -12,10 +14,11 @@ public class LicenseGeneratorContext(DbContextOptions<LicenseGeneratorContext> o
     public DbSet<InvoiceDeviceMapping> InvoiceDeviceMappings => Set<InvoiceDeviceMapping>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder){
+        
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Invoice>()
             .Property(l => l.Amount)
             .HasPrecision(10, 2);
-        base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<InvoiceDeviceMapping>()
                     .HasKey(m => new {
