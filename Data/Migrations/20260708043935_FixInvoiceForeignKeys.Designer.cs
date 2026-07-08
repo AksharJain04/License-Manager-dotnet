@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LicenseGenerator.Api.Data.Migrations
+namespace LicenseGenerator.Api.Migrations.LicenseGenerator
 {
     [DbContext(typeof(LicenseGeneratorContext))]
-    [Migration("20260706121536_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260708043935_FixInvoiceForeignKeys")]
+    partial class FixInvoiceForeignKeys
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,8 +102,8 @@ namespace LicenseGenerator.Api.Data.Migrations
             modelBuilder.Entity("LicenseGenerator.Api.Models.Invoice", b =>
                 {
                     b.Property<string>("InvoiceID")
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
 
                     b.Property<decimal>("Amount")
                         .HasPrecision(10, 2)
@@ -130,7 +130,7 @@ namespace LicenseGenerator.Api.Data.Migrations
             modelBuilder.Entity("LicenseGenerator.Api.Models.InvoiceDeviceMapping", b =>
                 {
                     b.Property<string>("InvoiceID")
-                        .HasColumnType("nvarchar(8)");
+                        .HasColumnType("nvarchar(12)");
 
                     b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(450)");
@@ -165,7 +165,7 @@ namespace LicenseGenerator.Api.Data.Migrations
 
                     b.Property<string>("InvoiceID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(8)");
+                        .HasColumnType("nvarchar(12)");
 
                     b.Property<string>("LicenseKey")
                         .IsRequired()
