@@ -44,7 +44,7 @@ namespace LicenseGenerator.Api.Data.Migrations
                 name: "Invoices",
                 columns: table => new
                 {
-                    InvoiceID = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
+                    InvoiceID = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
                     CustomerID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SaleDate = table.Column<DateOnly>(type: "date", nullable: false),
                     DealerID = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -86,7 +86,7 @@ namespace LicenseGenerator.Api.Data.Migrations
                 name: "InvoiceDeviceMappings",
                 columns: table => new
                 {
-                    InvoiceID = table.Column<string>(type: "nvarchar(8)", nullable: false),
+                    InvoiceID = table.Column<string>(type: "nvarchar(12)", nullable: false),
                     SerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DeviceSerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -112,7 +112,7 @@ namespace LicenseGenerator.Api.Data.Migrations
                 {
                     LicenseID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     LicenseKey = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InvoiceID = table.Column<string>(type: "nvarchar(8)", nullable: false),
+                    InvoiceID = table.Column<string>(type: "nvarchar(12)", nullable: false),
                     DeviceSerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ActivationDate = table.Column<DateOnly>(type: "date", nullable: false),
