@@ -16,7 +16,7 @@ public static class LicensesEndpoints {
 
     // GET /licenses
         group.MapGet("/", (LicenseGeneratorContext context) => {
-            var licenses = context.Licenses.Find();
+            var licenses = context.Licenses.ToList();
         })
         .WithName(GetLicensesEndpointName);
 
