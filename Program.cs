@@ -30,7 +30,18 @@ builder.Services.ConfigureApplicationCookie(options => {
     options.Cookie.HttpOnly = true;
 });
 
+builder.Services.AddCors(options => {
+    options.AddPolicy("Angular", policy => {
+        policy
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
+
+app.UseCors("Angular");
 
 // Endpoint registration
 app.MapCustomerEndpoints();
