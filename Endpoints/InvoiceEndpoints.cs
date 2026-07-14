@@ -7,7 +7,6 @@ namespace LicenseGenerator.Api.Endpoints;
 public static class InvoiceEndpoints {
     const string GetInvoicesEndpointName = "GetInvoices";
     const string GetInvoiceEndpointName = "GetInvoice";
-    const string CreateInvoiceEndpointName = "CreateInvoice";
     public static void MapInvoiceEndpoints(this WebApplication app){
         
         var group = app.MapGroup("/api/invoice");
@@ -26,8 +25,14 @@ public static class InvoiceEndpoints {
         .WithName(GetInvoiceEndpointName);
 
     // POST /invoice
-        var invoiceid = $"INV-{Random.Shared.Next(1, 100000000): D8}";
         group.MapPost("/", (CreateInvoiceDto dto, LicenseGeneratorContext context) => {
+            var lastInvoice = context.Invoices
+                                      .OrderByDescending(i => i.InvoiceID)
+                                      .FirstOrDefault();
+            int nextNumber = lastInvoice == null? 
+                                10000001 : int.Parse(lastInvoice.InvoiceID!.Substring(4)) + 1;
+            string invoiceid = $"INV-{nextNumber}";
+
             var invoice = new Invoice {
                 InvoiceID = invoiceid,
                 CustomerID = dto.CustomerID,
@@ -39,7 +44,7 @@ public static class InvoiceEndpoints {
             context.SaveChanges();
 
             return Results.CreatedAtRoute(
-                CreateInvoiceEndpointName,
+                GetInvoiceEndpointName,
                 new { id = invoice.InvoiceID },
                 new InvoiceDto(
                     invoice.InvoiceID,
