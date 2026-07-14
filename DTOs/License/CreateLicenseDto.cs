@@ -3,7 +3,6 @@ namespace LicenseGenerator.Api.Dtos;
 
 public record CreateLicenseDto (
     [Required] [StringLength(12)] string InvoiceID,
-    [Required] [StringLength(12)] string CustomerID,
     [Required] [StringLength(15)] string SerialNumber,
     DateOnly Activation_Date,
     DateOnly Expiration_Date,

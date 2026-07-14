@@ -7,7 +7,6 @@ namespace LicenseGenerator.Api.Endpoints;
 public static class CustomerEndpoints{   
     const string GetCustomersEndpointName = "GetCustomers";
     const string GetCustomerEndpointName = "GetCustomer";
-    const string CreateCustomerEndpointName = "CreateCustomer";
     public static void MapCustomerEndpoints(this WebApplication app) {
 
         var group = app.MapGroup("/api/customer");
@@ -32,11 +31,17 @@ public static class CustomerEndpoints{
 
         // POST /customers
         group.MapPost("/", (CreateCustomerDto dto, LicenseGeneratorContext context) => {   
-            string customerID = $"CID-{Random.Shared.Next(1, 100000000): D8}"; 
+            var lastCustomer = context.Customers
+                                      .OrderByDescending(c => c.CustomerID)
+                                      .FirstOrDefault();
+            int nextNumber = lastCustomer == null? 
+                                10000001 : int.Parse(lastCustomer.CustomerID!.Substring(4)) + 1;
+            string customerID = $"CID-{nextNumber}";
+
             var customer = new Customer {
                 CustomerID = customerID,
-                CustomerName = dto.CustomerName,
                 CustomerEmail = dto.CustomerEmail,
+                CustomerName = dto.CustomerName,
                 CustomerPhone = dto.CustomerPhone,
                 Company = dto.Company!
             };
@@ -44,12 +49,12 @@ public static class CustomerEndpoints{
             context.SaveChanges();
 
             return Results.CreatedAtRoute(
-                CreateCustomerEndpointName, 
+                GetCustomerEndpointName, 
                 new { id = customer.CustomerID }, 
                 new CustomerDto(
                     customer.CustomerID,
-                    customer.CustomerName,
                     customer.CustomerEmail,
+                    customer.CustomerName,
                     customer.CustomerPhone,
                     customer.Company,
                     customer.isActive

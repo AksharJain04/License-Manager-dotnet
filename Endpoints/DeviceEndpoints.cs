@@ -7,14 +7,12 @@ namespace LicenseGenerator.Api.Endpoints;
 public static class DeviceEndpoints {
     const string GetDevicesEndpointName = "GetDevices";
     const string GetDeviceEndpointName = "GetDevice";
-    const string CreateDeviceEndpointName = "CreateDevice";
     public static void MapDeviceEndpoints (this WebApplication app) {
 
         var group  = app.MapGroup("/api/device");
         
     // GET /device
-        group.MapGet("/", (LicenseGeneratorContext context) =>
-        {
+        group.MapGet("/", (LicenseGeneratorContext context) => {
             var device = context.Devices
                                 .Where( d => d.DeviceStatus == "Available")
                                 .ToList();
@@ -34,11 +32,11 @@ public static class DeviceEndpoints {
 
 
     // POST /device
-        group.MapPost("/", (string id, CreateDeviceDto dto, LicenseGeneratorContext context) =>
+        group.MapPost("/", (CreateDeviceDto dto, LicenseGeneratorContext context) =>
         {   
             var device = new Device {
-                DeviceID = dto.DeviceID,
                 SerialNumber = dto.SerialNumber,
+                DeviceID = dto.DeviceID,
                 ModelID = dto.ModelID,
                 SaleDate = dto.SaleDate,
                 DeviceStatus = dto.DeviceStatus
@@ -47,11 +45,11 @@ public static class DeviceEndpoints {
             context.SaveChanges();
 
             return Results.CreatedAtRoute(
-                CreateDeviceEndpointName,
-                new { id = device.DeviceID },
+                GetDeviceEndpointName,
+                new { id = device.SerialNumber },
                 new DeviceDto(
-                    device.DeviceID,
                     device.SerialNumber,
+                    device.DeviceID,
                     device.ModelID,
                     device.SaleDate,
                     device.DeviceStatus

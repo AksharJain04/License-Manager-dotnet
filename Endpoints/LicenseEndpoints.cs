@@ -8,7 +8,6 @@ namespace LicenseGenerator.Api.Endpoints;
 public static class LicensesEndpoints {
     const string GetLicensesEndpointName = "GetLicenses";
     const string GetLicenseEndpointName = "GetLicense";
-    const string CreateLicenseEndpointName = "CreateLicense";
 
     public static void MapLicensesEndpoints(this WebApplication app){
 
@@ -36,7 +35,7 @@ public static class LicensesEndpoints {
             string pattern = "^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$";
             Xeger xeger = new Xeger(pattern);
             string licensekey = xeger.Generate();
-            string licenseid = $"LIC-{Random.Shared.Next(1-100000000): D8}";
+            string licenseid = $"LIC-{Random.Shared.Next(10000000, 99999999)}";
 
             var licenses = new License {
                 LicenseID = licenseid,
@@ -49,9 +48,20 @@ public static class LicensesEndpoints {
             };
             context.Licenses.Add(licenses);
             context.SaveChanges();
+
+            Console.WriteLine("Saved successfully!");
+            Console.WriteLine("About to return response...");
+
+            Console.WriteLine("POST RECEIVED");
+            Console.WriteLine($"Invoice : {dto.InvoiceID}");
+            Console.WriteLine($"Serial  : {dto.SerialNumber}");
+            Console.WriteLine($"Activation : {dto.Activation_Date}");
+            Console.WriteLine($"Expiration : {dto.Expiration_Date}");
+            Console.WriteLine($"Status : {dto.ActivationStatus}");
                 
-            return Results.AcceptedAtRoute(
-                CreateLicenseEndpointName,
+            return Results.CreatedAtRoute(
+                GetLicenseEndpointName,
+                new { id = licenses.LicenseID},
                 new LicenseDto(
                     licenses.LicenseID,
                     licenses.LicenseKey,
