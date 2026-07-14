@@ -2,6 +2,7 @@ using LicenseGenerator.Api.Dtos;
 using LicenseGenerator.Api.Data;
 using Fare;
 using LicenseGenerator.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LicenseGenerator.Api.Endpoints;
 
@@ -14,13 +15,14 @@ public static class LicensesEndpoints {
         var group = app.MapGroup("/api/licenses");
 
     // GET /licenses
-        group.MapGet("/", (LicenseGeneratorContext context) => {
-            var licenses = context.Licenses.ToList();
+        app.MapGet("/api/licenselist", (LicenseGeneratorContext context) => {
+            var licenses = context.Licenses.FromSqlRaw("EXEC GetAllLicenses").ToList();
+            return Results.Ok(licenses);
         })
         .WithName(GetLicensesEndpointName);
+        
 
-
-    // GET /licenses/id
+    // GET /licenses/{id}
         group.MapGet("/{id}", (string id, LicenseGeneratorContext context) =>
         {
             var licenses = context.Licenses
@@ -75,19 +77,20 @@ public static class LicensesEndpoints {
         });
 
 
-    // License Re-activation POST /licenses/activate
-        group.MapPost("/activate", (ActivateLicenseDto dto, LicenseGeneratorContext context) => {
+    // License Re-activation/Updation PATCH /licenses/activate
+        group.MapPatch("/activate", (UpdateLicenseStatusDto dto, LicenseGeneratorContext context) => {
             var licenses = context.Licenses.FirstOrDefault(l => l.LicenseKey == dto.LicenseKey);
-            if (licenses is null) return Results.NotFound();
 
-            if (licenses.SerialNumber != dto.SerialNumber)
-                return Results.BadRequest("Invalid Serial Number.");
+            if (licenses is null) return Results.NotFound();
             if (licenses.ActivationStatus == "Activated")
                 return Results.Conflict("License already activated.");
 
-            licenses.ActivationStatus = "Activated";
-            licenses.ActivationDate = DateOnly.FromDateTime(DateTime.Today);
-
+            if(dto.ActivationStatus == "Activated"){
+                licenses.ActivationStatus = dto.ActivationStatus;
+                licenses.ActivationDate = DateOnly.FromDateTime(DateTime.Today);
+            }else{
+                licenses.ActivationStatus = dto.ActivationStatus;
+            }
             context.SaveChanges();
             return Results.Ok(licenses);
         });

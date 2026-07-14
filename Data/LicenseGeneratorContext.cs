@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using LicenseGenerator.Api.Models;
 using LicenseGenerator.Api.LoginModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using LicenseGenerator.Api.Dtos;
 
 namespace LicenseGenerator.Api.Data;
 
@@ -12,6 +13,7 @@ public class LicenseGeneratorContext(DbContextOptions<LicenseGeneratorContext> o
     public DbSet<Device> Devices => Set<Device>();
     public DbSet<License> Licenses => Set<License>();
     public DbSet<InvoiceDeviceMapping> InvoiceDeviceMappings => Set<InvoiceDeviceMapping>();
+    public DbSet<LicenseListDto> LicenseList { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder){
         
@@ -26,5 +28,6 @@ public class LicenseGeneratorContext(DbContextOptions<LicenseGeneratorContext> o
                         m.SerialNumber
                     });
 
+        modelBuilder.Entity<LicenseListDto>().HasNoKey();
     }
 }
