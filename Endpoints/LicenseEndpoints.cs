@@ -50,16 +50,6 @@ public static class LicensesEndpoints {
             };
             context.Licenses.Add(licenses);
             context.SaveChanges();
-
-            Console.WriteLine("Saved successfully!");
-            Console.WriteLine("About to return response...");
-
-            Console.WriteLine("POST RECEIVED");
-            Console.WriteLine($"Invoice : {dto.InvoiceID}");
-            Console.WriteLine($"Serial  : {dto.SerialNumber}");
-            Console.WriteLine($"Activation : {dto.Activation_Date}");
-            Console.WriteLine($"Expiration : {dto.Expiration_Date}");
-            Console.WriteLine($"Status : {dto.ActivationStatus}");
                 
             return Results.CreatedAtRoute(
                 GetLicenseEndpointName,
@@ -78,14 +68,14 @@ public static class LicensesEndpoints {
 
 
     // License Re-activation/Updation PATCH /licenses/activate
-        group.MapPatch("/activate", (UpdateLicenseStatusDto dto, LicenseGeneratorContext context) => {
-            var licenses = context.Licenses.FirstOrDefault(l => l.LicenseKey == dto.LicenseKey);
+        group.MapPatch("/{id}", (string id, UpdateLicenseStatusDto dto, LicenseGeneratorContext context) => {
+            var licenses = context.Licenses.Find(id);
 
             if (licenses is null) return Results.NotFound();
-            if (licenses.ActivationStatus == "Activated")
-                return Results.Conflict("License already activated.");
+            if (licenses.ActivationStatus == dto.ActivationStatus)
+                return Results.Conflict("License already has the current status.");
 
-            if(dto.ActivationStatus == "Activated"){
+            if(dto.ActivationStatus == "Active"){
                 licenses.ActivationStatus = dto.ActivationStatus;
                 licenses.ActivationDate = DateOnly.FromDateTime(DateTime.Today);
             }else{
