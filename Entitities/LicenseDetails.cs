@@ -17,7 +17,7 @@ public class License {
         get => status;
         set
         {
-            var allowed = new[] { "Active", "Expired", "Revoked", "Suspended" };
+            var allowed = new[] { "Active", "Expired", "Revoked", "Suspended", "Inactive" };
             if (!allowed.Contains(value))
                 throw new ArgumentException("Invalid Activation Status Entry!");
             status = value;

@@ -34,6 +34,25 @@ public static class LicensesEndpoints {
 
     // POST /licenses
         group.MapPost("/", (CreateLicenseDto dto, LicenseGeneratorContext context) => {
+
+            var mappingExists = context.InvoiceDeviceMappings.Any(m =>
+                m.InvoiceID == dto.InvoiceID &&
+                m.SerialNumber == dto.SerialNumber);
+            if (!mappingExists) {
+                return Results.BadRequest(
+                    "This serial number was not sold on the specified invoice."
+                );
+            }
+
+            var alreadyLicensed = context.Licenses.Any(l =>
+                l.InvoiceID == dto.InvoiceID &&
+                l.SerialNumber == dto.SerialNumber);
+            if (alreadyLicensed) {
+                return Results.BadRequest(
+                    "A license already exists for this Invoice Number and Serial Number."
+                );
+            }
+
             string pattern = "^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$";
             Xeger xeger = new Xeger(pattern);
             string licensekey = xeger.Generate();
@@ -48,8 +67,13 @@ public static class LicensesEndpoints {
                 ExpirationDate = dto.Expiration_Date,
                 ActivationStatus = dto.ActivationStatus
             };
-            context.Licenses.Add(licenses);
-            context.SaveChanges();
+            try {
+                context.Licenses.Add(licenses);
+                context.SaveChanges();
+            } 
+            catch {
+                return Results.Conflict("A license already exists for this Invoice Number and Serial Number.");
+            }
                 
             return Results.CreatedAtRoute(
                 GetLicenseEndpointName,
@@ -103,7 +127,7 @@ public static class LicensesEndpoints {
             var licenses = context.Licenses.Find(id);
             if (licenses is null) return Results.NotFound();
 
-            licenses.ActivationStatus = "Revoked";
+            licenses.ActivationStatus = "Expired";
             context.SaveChanges();
             return Results.NoContent();
         });
