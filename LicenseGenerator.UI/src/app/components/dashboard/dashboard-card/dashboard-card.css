@@ -1,0 +1,65 @@
+.card{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#ffffff;
+    border:1px solid #d1d5db;
+    border-radius:12px;
+    padding:18px 22px;
+    transition:.25s;
+    cursor:default;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+
+}
+
+.card:hover{
+
+    transform:translateY(-3px);
+    border-color:#2563eb;
+    box-shadow:0 8px 18px rgba(37,99,235,.12);
+
+}
+
+.left{
+
+    display:flex;
+    align-items:center;
+    gap:16px;
+
+}
+
+.icon{
+
+    width:46px;
+    height:46px;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.icon mat-icon{
+
+    font-size:24px;
+    width:24px;
+    height:24px;
+
+}
+
+.title{
+
+    font-size:20px;
+    font-weight:650;
+    color:#374151;
+
+}
+
+.value{
+
+    font-size:25px;
+    font-weight:650;
+    color:#111827;
+
+}

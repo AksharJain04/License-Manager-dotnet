@@ -1,0 +1,29 @@
+<div class="container">
+    <h2>View Invoices</h2>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Invoice Number</th>
+                    <th>Customer ID</th>
+                    <th>Dealer ID</th>
+                    <th>Sale Date</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for(invoice of invoices; track invoice.invoiceID){
+                    <tr>
+                        <td>{{ invoice.invoiceID }}</td>
+                        <td>{{ invoice.customerID }}</td>
+                        <td>{{ invoice.dealerID }}</td>
+                        <td>{{ invoice.saleDate }}</td>
+                        <td>₹ {{ invoice.amount }}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

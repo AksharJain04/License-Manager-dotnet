@@ -1,0 +1,25 @@
+<div class="login-container">
+    <div class="login-card">
+        <h1> License Manager </h1>
+        <h3> Welcome back! </h3>
+
+        <form [formGroup]="loginForm"
+              autocomplete="off"
+              (ngSubmit)="login()">
+
+            <label> Username </label>
+            <input type="text"
+                   formControlName="username">
+            <label> Password </label>
+            <input type="password"
+                   formControlName="password">
+
+            <button 
+                type = "submit"
+                [disabled] = "loginForm.invalid"> 
+                    Login 
+            </button>
+
+        </form>
+    </div>
+</div>

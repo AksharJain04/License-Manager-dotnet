@@ -1,0 +1,111 @@
+<div class= "device-container">
+    <div class= "device-card">
+        <h2>Enter New Device Details</h2>
+        <form [formGroup] = "myForm">
+            
+            <! --- SERIAL NUMBER --- >
+            <div class="form-group">
+                <label for="serialnumber">Serial Number</label>
+            <input
+                id = "serialnumber"
+                type = "text"
+                class = "form-control"
+                formControlName = "serialnumber">
+
+                @if (myForm.get('serialnumber')?.hasError('required') &&
+                     myForm.get('serialnumber')?.touched) {
+                <div class="error">
+                    Serial Number is required. </div>
+                }
+                @if (myForm.get('serialnumber')?.hasError('pattern') &&
+                     myForm.get('serialnumber')?.touched) {
+                <div class="error">
+                    Enter a valid Serial Number.</div>
+                }
+            </div>
+
+            <! --- DEVICE ID --- >
+            <div class="form-group">
+                <label for="deviceid">Device ID</label>
+            <input
+                id = "deviceid"
+                type = "text"
+                class = "form-control"
+                formControlName = "deviceid">
+
+                @if (myForm.get('deviceid')?.hasError('required') &&
+                     myForm.get('deviceid')?.touched) {
+                <div class="error">
+                    Device ID is required. </div>
+                }
+                @if (myForm.get('deviceid')?.hasError('pattern') &&
+                     myForm.get('deviceid')?.touched) {
+                <div class="error">
+                    Enter a valid Device ID.</div>
+                }
+            </div>
+
+            <! --- MODEL ID --- >
+            <div class="form-group">
+                <label for="modelid">Model ID</label>
+            <input
+                id = "modelid"
+                type = "text"
+                class = "form-control"
+                formControlName = "modelid">
+
+                @if (myForm.get('modelid')?.hasError('required') &&
+                     myForm.get('modelid')?.touched) {
+                <div class="error">
+                    Model ID is required. </div>
+                }
+                @if (myForm.get('modelid')?.hasError('pattern') &&
+                     myForm.get('modelid')?.touched) {
+                <div class="error">
+                    Enter a valid Model ID.</div>
+                }
+            </div>
+
+            <! --- SALE DATE --- >
+            <div class="form-group">
+                <label>Sale Date</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    formControlName="saledate">
+            </div>
+
+            <! --- DEVICE STATUS --- >
+            <div class="form-group">
+            <label for="devicestatus">Device Status</label>
+            <select
+                id="devicestatus"
+                class="form-control"
+                formControlName="devicestatus">
+                <option value="" disabled>Select Device Status</option>
+
+                @for (status of deviceStatuses; track status) {
+                    <option [value]="status">{{ status }}</option>
+                }
+            </select>
+
+            @if (myForm.get('devicestatus')?.hasError('required') && myForm.get('devicestatus')?.touched) {
+                <div class="error">
+                    Device Status is required.
+                </div>
+            }
+            </div>
+
+
+            <button
+                class =  "device-btn"
+                type = "submit"
+                (click)="generateDevice()"
+                [disabled] = "myForm.invalid">
+                Enter Device
+            </button>
+
+        </form>
+    </div>
+</div>
+

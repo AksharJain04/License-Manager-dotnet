@@ -1,0 +1,89 @@
+/* ===========================
+   PAGE LAYOUT
+=========================== */
+
+.container {
+    max-width: 1365px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.container h2 {
+    margin-bottom: 28px;
+    font-size: 42px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+
+/* ===========================
+   TABLE CARD
+=========================== */
+
+.table-card {
+    width: fit-content;          /* Make card wrap around table */
+    max-width: 1080px;           /* Adjust this value to make it narrower */
+    margin: 0 auto;              /* Center the card */
+
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 22px rgba(0,0,0,.08);
+}
+
+
+/* ===========================
+   TABLE
+=========================== */
+
+table {
+    width: auto;                 /* Don't stretch to fill the card */
+    min-width: 980px;            /* Gives the columns a sensible width */
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+thead {
+    background: #1f2937;
+}
+
+thead th {
+    color: white;
+    padding: 16px 24px;          /* Horizontal padding controls column width */
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    white-space: nowrap;
+}
+
+tbody td {
+    padding: 16px 24px;          /* Match header spacing */
+    border-bottom: 1px solid #e5e7eb;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+tbody tr:hover {
+    background: #eef4ff;
+}
+
+
+/* ===========================
+   CONTENT FONTS
+=========================== */
+
+td:nth-child(1),
+td:nth-child(2),
+td:nth-child(3),
+td:nth-child(4),
+td:nth-child(5) {
+    font-family: Consolas, monospace;
+    letter-spacing: .4px;
+}

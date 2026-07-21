@@ -1,0 +1,14 @@
+@if (visible) {
+    <div class="toast-container" 
+        [ngClass]="toast.type">
+        <button
+            class="toast-close"
+            type="button"
+            (click)="closeToast()">
+                &times;
+        </button>
+    <div class="toast-title"> {{toast.title}} </div>
+    <div class="toast-message"> {{toast.message}} </div>
+</div>
+}
+
