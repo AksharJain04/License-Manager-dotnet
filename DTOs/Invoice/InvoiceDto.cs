@@ -4,7 +4,7 @@ namespace LicenseGenerator.Api.Dtos;
 public record InvoiceDto(
     string InvoiceID,
     string CustomerID,
-    DateOnly SaleDate,
     string DealerID,
+    DateOnly SaleDate,
     decimal Amount
 );

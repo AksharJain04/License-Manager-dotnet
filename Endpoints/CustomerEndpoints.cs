@@ -11,12 +11,12 @@ public static class CustomerEndpoints{
 
         var group = app.MapGroup("/api/customer");
 
-        // GET /customers
-        group.MapGet("/", (LicenseGeneratorContext context) => {
-            var customer = context.Customers
-                                  .Where( c => c.isActive )
-                                  .ToList();
+        // GET /customerlist
+        app.MapGet("/api/customerlist", (LicenseGeneratorContext context) => {
+            var customer = context.Customers.Where( c => c.isActive ).ToList();
+            return customer is null? Results.NotFound(): Results.Ok(customer);
         })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "CustomerManager"))
         .WithName(GetCustomersEndpointName);
 
 
@@ -26,6 +26,7 @@ public static class CustomerEndpoints{
                                   .FirstOrDefault( c => c.CustomerID == id && c.isActive);
             return customer is null? Results.NotFound(): Results.Ok(customer);
         })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "CustomerManager", "Customer"))
         .WithName(GetCustomerEndpointName);
 
 
@@ -59,11 +60,12 @@ public static class CustomerEndpoints{
                     customer.Company,
                     customer.isActive
             ));
-        });
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "CustomerManager"));
 
 
-        // PUT /customers/{id}
-        group.MapPut("/{id}", (string id, UpdateCustomerDto dto, LicenseGeneratorContext context) => {
+        // PATCH /customers/{id}
+        group.MapPatch("/{id}", (string id, UpdateCustomerDto dto, LicenseGeneratorContext context) => {
             var customer = context.Customers.Find(id);
             if (customer is null) return Results.NotFound();
 
@@ -74,7 +76,21 @@ public static class CustomerEndpoints{
 
             context.SaveChanges();
             return Results.NoContent();
-        });
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "CustomerManager"));
+
+
+        // PATCH /customers/{id}/status
+        group.MapPatch("/{id}/status", (string id, UpdateCustomerStatusDto dto, LicenseGeneratorContext context) => {
+            var customer = context.Customers.Find(id);
+            if (customer is null) return Results.NotFound();
+
+            customer.isActive = dto.isActive;
+
+            context.SaveChanges();
+            return Results.NoContent();
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "CustomerManager"));
 
 
         // DELETE /customers/{id}
@@ -85,7 +101,7 @@ public static class CustomerEndpoints{
             customer.isActive = false;
             context.SaveChanges();
             return Results.NoContent();
-
-        });
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "CustomerManager"));
     }
 }

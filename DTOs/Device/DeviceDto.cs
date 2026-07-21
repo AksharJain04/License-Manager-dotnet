@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 namespace LicenseGenerator.Api.Dtos;
 
 public record DeviceDto(
-    string DeviceID,
+    string DeviceId,
     string SerialNumber,
-    string ModelID,
+    string ModelId,
     DateOnly SaleDate,
     string DeviceStatus
 );
