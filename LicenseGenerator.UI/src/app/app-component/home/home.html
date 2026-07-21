@@ -1,0 +1,59 @@
+<div class="dashboard-container">
+    <h1 class="hero-section">
+        Device License Generator
+    </h1>
+
+    <p class="subtitle">
+        Generate, manage and track licenses using invoice data.
+    </p>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <h3>{{ totalLicenses }}</h3>
+            <p>Total Licenses</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ activeLicenses }}</h3>
+            <p>Active Licenses</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ totalDevices }}</h3>
+            <p>Total Devices</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ pendingActivations }}</h3>
+            <p>Pending Activations</p>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="primary-btn" routerLink="/generate">
+            Generate License
+        </button>
+        <button class="secondary-btn" routerLink="/licenses">
+            View Licenses
+        </button>
+    </div>
+
+    <div class="activity-section">
+        <div class="section-header">
+            <h2>Recent Activity</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Invoice Number</th>
+                    <th>Serial Number</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let activity of recentActivities">
+                    <td>{{ activity.invoice }}</td>
+                    <td>{{ activity.serial }}</td>
+                    <td>{{ activity.action }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
