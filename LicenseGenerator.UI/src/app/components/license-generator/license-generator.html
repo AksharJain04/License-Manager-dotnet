@@ -1,0 +1,84 @@
+<div class="generator-container">
+    <div class="generator-card">
+        <h2>Generate License</h2>
+        <form [formGroup]="myForm" 
+              autocomplete="off">
+
+            <! --- INVOICE NUMBER --- >
+            <div class="form-group">
+                <label for="invoiceid">Invoice Number</label>
+            <input
+                id = "invoiceid"
+                type = "text"
+                class = "form-control"
+                formControlName = "invoiceid"
+                autocomplete="off">
+
+                @if (myForm.get('invoiceid')?.hasError('required') &&
+                     myForm.get('invoiceid')?.touched) {
+                <div class="error">
+                    Invoice Number is required.</div>
+                }
+                @if (myForm.get('invoiceid')?.hasError('pattern') &&
+                     myForm.get('invoiceid')?.touched) {
+                <div class="error">
+                    Invoice Number must start with <strong>INV-</strong> followed by 8 digits.</div>
+                }
+            </div>
+
+            <! --- SERIAL NUMBER --- >
+            <div class="form-group">
+                <label for="serialnumber">Serial Number</label>
+            <input
+                id = "serialnumber"
+                type = "text"
+                class = "form-control"
+                formControlName = "serialnumber"
+                autocomplete="off">
+
+                @if (myForm.get('serialnumber')?.hasError('required') &&
+                    myForm.get('serialnumber')?.touched) {
+                <div class="error">
+                    Serial Number is required.</div>
+                }
+                @if (myForm.get('serialnumber')?.hasError('pattern') &&
+                    myForm.get('serialnumber')?.touched) {
+                <div class="error">
+                    Serial Number must be 8-15 digits long.</div>
+                }
+            </div>
+        
+            <! --- ACTIVATION DATE --- >
+            <div class="form-group">
+                <label>Activation Date</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    formControlName="activationDate"
+                    autocomplete="off">
+            </div>
+
+            <! --- EXPIRATION DATE --- >
+            <div class="form-group">
+                <label>Expiration Date</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    formControlName="expirationDate"
+                    autocomplete="off">
+                @if (myForm.hasError('invalidDateRange') && myForm.get('expirationDate')?.touched) {
+                <div class="error">Expiration Date cannot be earlier than Activation Date.</div>
+                }
+            </div>
+
+            <button
+                type = "submit"
+                class = "generate-btn"
+                (click)="generateLicense()"
+                [disabled] = "myForm.invalid">
+                Generate License
+            </button>
+
+        </form>
+    </div>
+</div>

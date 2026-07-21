@@ -1,0 +1,72 @@
+<div class="container">
+    <h2>View and Manage Licenses</h2>
+        <div class="table-card">
+            <table>
+            <thead>
+                <tr>
+                    <th>License ID</th>
+                    <th>License Key</th>
+                    <th>Invoice Number</th>
+                    <th>Serial Number</th>
+                    <th>Activation</th>
+                    <th>Expiration</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                @for(license of licenses; track license.licenseID){
+                    <tr>
+                        <td>{{ license.licenseID }}</td>
+                        <td>{{ license.licenseKey }}</td>
+                        <td>{{ license.invoiceID }}</td>
+                        <td>{{ license.serialNumber }}</td>
+                        <td>{{ license.activationDate }}</td>
+                        <td>{{ license.expirationDate }}</td>
+
+                        <td>
+                            <div class="status-wrapper"
+                                [ngClass]="{
+                                    'status-active' : license.activationStatus ==='Active',
+                                    'status-suspended' : license.activationStatus ==='Suspended',
+                                    'status-expired' : license.activationStatus ==='Expired',
+                                    'status-revoked' : license.activationStatus ==='Revoked',
+                                    'status-inactive' : license.activationStatus === 'Inactive'
+                                }">
+                            <select
+                                class="status-select"
+                                [ngClass]="{
+                                    'status-active' : license.activationStatus === 'Active',
+                                    'status-suspended' : license.activationStatus === 'Suspended',
+                                    'status-expired' : license.activationStatus === 'Expired',
+                                    'status-revoked' : license.activationStatus === 'Revoked',
+                                    'status-inactive' : license.activationStatus === 'Inactive'
+                                }"
+                                (change)="onStatusChange(license)"
+                                [(ngModel)]="license.activationStatus">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                    <option value="Suspended">Suspended</option>
+                                    <option value="Expired">Expired</option>
+                                    <option value="Revoked">Revoked</option>
+                            </select>
+                            </div>
+                        </td>
+                        
+                        <td>
+                            <button
+                                class = "save-btn"
+                                [disabled]="!license.dirty"
+                                (click) = "updateLicenseStatus(license)">
+                                <img src="https://img.icons8.com/ios_filled/512w/FFFFFF/save.png"
+                                     alt ="" class="save-icon">
+                                Save
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

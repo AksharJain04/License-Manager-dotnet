@@ -1,0 +1,88 @@
+<div class="invoice-container">
+    <div class="invoice-card">
+        <h2>Create a new Invoice</h2>
+        <form [formGroup] = "myForm"
+              autocomplete="off">
+            
+            <! --- CUSTOMER ID --- >
+            <div class="form-group">
+                <label for="customerid">CustomerID</label>
+            <input
+                id = "customerid"
+                type = "text"
+                class = "form-control"
+                formControlName = "customerid"
+                autocomplete="off">
+
+                @if (myForm.get('customerid')?.hasError('required') &&
+                     myForm.get('customerid')?.touched) {
+                <div class="error">
+                    CustomerID is required. </div>
+                }
+                @if (myForm.get('customerid')?.hasError('pattern') &&
+                     myForm.get('customerid')?.touched) {
+                <div class="error">
+                    Enter a valid CustomerID.</div>
+                }
+            </div>
+
+            <! --- SALE DATE --- >
+            <div class="form-group">
+                <label>Sale Date</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    formControlName="saledate"
+                    autocomplete="off">
+            </div>
+
+            <! --- DEALER ID --- >
+            <div class="form-group">
+                <label for="dealerid">DealerID</label>
+            <input
+                id = "dealerid"
+                type = "text"
+                class = "form-control"
+                formControlName = "dealerid"
+                autocomplete="off">
+
+                @if (myForm.get('dealerid')?.hasError('required') &&
+                     myForm.get('dealerid')?.touched) {
+                <div class="error">
+                    DealerID is required. </div>
+                }
+                @if (myForm.get('dealerid')?.hasError('pattern') &&
+                     myForm.get('dealerid')?.touched) {
+                <div class="error">
+                    Enter a valid DealerID.</div>
+                }
+            </div>
+
+            <! --- AMOUNT --- >
+            <div class="form-group">
+                <label for="amount">Amount</label>
+            <input
+                id = "amount"
+                type = "text"
+                class = "form-control"
+                formControlName = "amount"
+                autocomplete="off">
+
+                @if (myForm.get('amount')?.hasError('required') &&
+                    myForm.get('amount')?.touched) {
+                <div class="error">
+                    Amount is required.</div>
+                }
+            </div>
+            
+            <button
+                class = "invoice-btn"
+                type = "submit"
+                (click)="generateInvoice()"
+                [disabled] = "myForm.invalid">
+                Create Invoice
+            </button>
+
+        </form>
+    </div>
+</div>
