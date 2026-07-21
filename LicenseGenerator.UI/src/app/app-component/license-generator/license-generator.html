@@ -1,0 +1,49 @@
+<div class="generator-container">
+    <div class="generator-card">
+        <h2>Generate License</h2>
+
+        <div class="form-group">
+            <label>Invoice Number</label>
+            <input
+                type="text"
+                name="invoiceNumber"
+                [(ngModel)]="invoiceNumber"
+                #invoiceCtrl="ngModel"
+                required
+                pattern="^INV\d{5}$">
+            <div
+                class="error"
+                *ngIf="(invoiceCtrl.errors?.['required']) && invoiceCtrl.touched">
+                Invoice Number is required.
+            </div>
+            <div
+                class="error"
+                *ngIf="(invoiceCtrl.errors?.['pattern']) && invoiceCtrl.touched">
+                Invoice Number must start with 'INV' followed by 5 digits.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Device Model</label>
+            <input
+                type="text"
+                name="deviceModel"
+                [(ngModel)]="deviceModel"
+                #deviceCtrl="ngModel"
+                required>
+            <div
+                class="error"
+                *ngIf="deviceCtrl.errors?.['required'] && deviceCtrl.touched">
+                Device Model is required.
+            </div>
+        </div>
+
+        <button
+            class="generate-btn"
+            [disabled]="invoiceCtrl.invalid || deviceCtrl.invalid"
+            (click)="generateLicense()">
+            Generate License
+        </button>
+
+    </div>
+</div>

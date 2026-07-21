@@ -1,0 +1,54 @@
+/* Remove default browser spacing */
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #1f2937;
+
+    padding: 15px 40px;
+
+    color: white;
+
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+/* Title */
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Navigation Container */
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+/* Links */
+.nav-links a {
+    color: white;
+    text-decoration: none;
+
+    padding: 8px 12px;
+
+    border-radius: 5px;
+
+    transition: 0.3s;
+}
+
+/* Hover */
+.nav-links a:hover {
+    background-color: #374151;
+}
+
+/* Active Route */
+.nav-links a.active {
+    background-color: #2563eb;
+}
