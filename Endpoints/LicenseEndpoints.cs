@@ -19,6 +19,7 @@ public static class LicensesEndpoints {
             var licenses = context.Licenses.FromSqlRaw("EXEC GetAllLicenses").ToList();
             return Results.Ok(licenses);
         })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "LicenseManager"))
         .WithName(GetLicensesEndpointName);
         
 
@@ -29,6 +30,7 @@ public static class LicensesEndpoints {
                                   .FirstOrDefault( i => i.LicenseID == id);
             return licenses is null? Results.NotFound() : Results.Ok(licenses);
         })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "LicenseManager", "Customer"))
         .WithName(GetLicenseEndpointName);
 
 
@@ -77,7 +79,7 @@ public static class LicensesEndpoints {
                 
             return Results.CreatedAtRoute(
                 GetLicenseEndpointName,
-                new { id = licenses.LicenseID},
+                new { id = licenses.LicenseID },
                 new LicenseDto(
                     licenses.LicenseID,
                     licenses.LicenseKey,
@@ -88,11 +90,12 @@ public static class LicensesEndpoints {
                     licenses.ActivationStatus
                 )
             );
-        });
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "LicenseManager"));
 
 
     // License Re-activation/Updation PATCH /licenses/activate
-        group.MapPatch("/{id}", (string id, UpdateLicenseStatusDto dto, LicenseGeneratorContext context) => {
+        group.MapPatch("/activate/{id}", (string id, UpdateLicenseStatusDto dto, LicenseGeneratorContext context) => {
             var licenses = context.Licenses.Find(id);
 
             if (licenses is null) return Results.NotFound();
@@ -107,19 +110,20 @@ public static class LicensesEndpoints {
             }
             context.SaveChanges();
             return Results.Ok(licenses);
-        });
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "LicenseManager"));
 
 
-    // PUT /licenses/id
-        group.MapPut("/{id}", (string id, UpdateLicenseDto dto, LicenseGeneratorContext context) => {
+    // PATCH /licenses/id
+        group.MapPatch("/{id}", (string id, UpdateLicenseExpiryDto dto, LicenseGeneratorContext context) => {
             var licenses = context.Licenses.Find(id);
             if (licenses is null) return Results.NotFound();
 
             licenses.ExpirationDate = dto.ExpirationDate;
-            licenses.ActivationStatus = dto.ActivationStatus;
             context.SaveChanges();
             return Results.NoContent();
-        });
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "LicenseManager"));
     
 
     // DELETE /licenses/id
@@ -130,7 +134,8 @@ public static class LicensesEndpoints {
             licenses.ActivationStatus = "Expired";
             context.SaveChanges();
             return Results.NoContent();
-        });
-
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "LicenseManager"));
+        
     }
 }

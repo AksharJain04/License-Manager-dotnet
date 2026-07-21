@@ -55,3 +55,13 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Ignore all Postman environment files (sensitive data)
+*.postman_environment.json
+
+# Optional: Ignore collections if you use Postman Cloud workspaces
+# *.postman_collection.json
+
+# Ignore Postman data dumps and local backups
+postman_dump.json
+.postman/

@@ -1,6 +1,7 @@
 using LicenseGenerator.Api.Dtos;
 using LicenseGenerator.Api.Data;
 using LicenseGenerator.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LicenseGenerator.Api.Endpoints;
 
@@ -11,13 +12,19 @@ public static class DeviceEndpoints {
 
         var group  = app.MapGroup("/api/device");
         
-    // GET /device
-        group.MapGet("/", (LicenseGeneratorContext context) => {
-            var device = context.Devices
-                                .Where( d => d.DeviceStatus == "Available")
-                                .ToList();
-            return Results.Ok(device);       
+    // GET /devicelist
+        app.MapGet("/api/devicelist", (LicenseGeneratorContext context) => {
+            var devices = context.Devices.FromSqlRaw("EXEC GetDevicesByStatus").ToList();
+            var dto = devices.Select( d=> new DeviceDto(
+                d.DeviceID!,
+                d.SerialNumber!,
+                d.ModelID!,
+                d.SaleDate,
+                d.DeviceStatus!
+            ));
+            return Results.Ok(dto);
         })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "DeviceManager"))
         .WithName(GetDevicesEndpointName);
 
 
@@ -28,6 +35,7 @@ public static class DeviceEndpoints {
                                 .FirstOrDefault(d => d.DeviceID == id );
             return device is null? Results.NotFound(device): Results.Ok(device) ;
         })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "DeviceManager", "Customer"))
         .WithName(GetDeviceEndpointName);
 
 
@@ -36,8 +44,8 @@ public static class DeviceEndpoints {
         {   
             var device = new Device {
                 SerialNumber = dto.SerialNumber,
-                DeviceID = dto.DeviceID,
-                ModelID = dto.ModelID,
+                DeviceID = dto.DeviceId,
+                ModelID = dto.ModelId,
                 SaleDate = dto.SaleDate,
                 DeviceStatus = dto.DeviceStatus
             };
@@ -46,7 +54,7 @@ public static class DeviceEndpoints {
 
             return Results.CreatedAtRoute(
                 GetDeviceEndpointName,
-                new { id = device.SerialNumber },
+                new { id = device.DeviceID },
                 new DeviceDto(
                     device.SerialNumber,
                     device.DeviceID,
@@ -54,43 +62,19 @@ public static class DeviceEndpoints {
                     device.SaleDate,
                     device.DeviceStatus
             ));
-        });
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "DeviceManager"));
 
 
-    // PUT /device/{id}
-        group.MapPut("/{id}", (string id, UpdateDeviceDto dto, LicenseGeneratorContext context) => {
-            var device = context.Devices.Find(id);
+    // PATCH /device/{id}
+        group.MapPatch("/{id}", (string id, UpdateDeviceDto dto, LicenseGeneratorContext context) => {
+            var device = context.Devices.FirstOrDefault(d => d.DeviceID == id );
             if (device is null) return Results.NotFound();
 
-            device.DeviceStatus = dto.DeviceStatus;
+            device.DeviceStatus = dto.deviceStatus;
             context.SaveChanges();
             return Results.NoContent();
-        });
-
-
-    // POST-SOLD /device/{id}/sold
-        group.MapPost("/{id}/sold", (string id, LicenseGeneratorContext context) =>
-        {
-            var device = context.Devices.Find(id);
-            if (device is null) return Results.NotFound();
-
-            device.DeviceStatus = "Sold";
-            context.SaveChanges();
-            return Results.NoContent();
-        });
-
-    // POST-REPLACEMENT /device/{id}/replaced
-        group.MapPost("/{id}/replace", (string id, LicenseGeneratorContext context) =>
-        {
-            var device = context.Devices.Find(id);
-            if (device is null) return Results.NotFound();
-
-            device.DeviceStatus = "Replaced";
-            context.SaveChanges();
-            return Results.NoContent();
-
-    // No DELETE Request defined for devices. 
-
-        });
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "DeviceManager"));
     }
 }

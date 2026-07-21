@@ -3,8 +3,8 @@ namespace LicenseGenerator.Api.Dtos;
 
 public record CreateDeviceDto(
     [Required] string SerialNumber,
-    [Required] string DeviceID,
-    [Required] string ModelID,
+    [Required] string DeviceId,
+    [Required] string ModelId,
     [Required] DateOnly SaleDate,
     [Required] string DeviceStatus
 );

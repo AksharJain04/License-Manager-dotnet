@@ -12,7 +12,8 @@ public static class MappingEndpoints {
     // GET /mapping
         group.MapGet("/", (LicenseGeneratorContext context) => {
             return Results.Ok(context.InvoiceDeviceMappings.ToList());
-        });
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "InvoiceManager"));
 
     // GET /mapping/{id}
         group.MapGet("/{id}", (string id, LicenseGeneratorContext context) => {
@@ -20,21 +21,10 @@ public static class MappingEndpoints {
                                   .Where(m => m.InvoiceID == id)
                                   .ToList();
             return Results.Ok(mappings);
-        });
+        })
+        .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "InvoiceManager"));
 
-    // POST /mapping
-        group.MapPost("/", (CreateInvoiceDeviceMappingDto dto, LicenseGeneratorContext context) => {
-            var mappings = new InvoiceDeviceMapping{
-                InvoiceID = dto.InvoiceID,
-                SerialNumber = dto.SerialNumber
-            };
-            context.InvoiceDeviceMappings.Add(mappings);
-            context.SaveChanges();
-
-            return Results.Created($"/mapping/{mappings.InvoiceID}", mappings);
-        });
-
-    // No PUT or DELETE Requests for MappingEndpoints.
+    // No POST (here), PUT or DELETE Requests for MappingEndpoints.
 
     }
 }
