@@ -1,0 +1,50 @@
+<nav class="sidebar">
+    <div class="menu">
+        <a
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">
+            <mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span>
+        </a>
+
+        <a
+            routerLink="/allcustomers"
+            routerLinkActive="active">
+            <mat-icon>groups</mat-icon>
+            <span>Customers</span>
+        </a>
+
+        <a
+            routerLink="/alldevices"
+            routerLinkActive="active">
+            <mat-icon>devices</mat-icon>
+            <span>Devices</span>
+        </a>
+
+        <a
+            routerLink="/allinvoices"
+            routerLinkActive="active">
+            <mat-icon>receipt_long</mat-icon>
+            <span>Invoices</span>
+        </a>
+
+        <a
+            routerLink="/alllicenses"
+            routerLinkActive="active">
+            <mat-icon>ballot</mat-icon>
+            <span>Licenses</span>
+        </a>
+
+    </div>
+
+    <div class="bottom">
+        <button
+            type="button"
+            (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Sign Out</span>
+        </button>
+    </div>
+
+</nav>

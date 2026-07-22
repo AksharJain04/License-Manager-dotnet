@@ -1,0 +1,102 @@
+<div class="cards">
+
+    <app-dashboard-card
+        title="Active Licenses:"
+        [value]="dashboard.activeLicenses"
+        icon="verified"
+        color="#10B981">
+    </app-dashboard-card>
+
+    <app-dashboard-card
+        title="Inactive Licenses:"
+        [value]="dashboard.inactiveLicenses"
+        icon="schedule"
+        color="#EF4444">
+    </app-dashboard-card>
+
+    <app-dashboard-card
+        title="Suspended Licenses:"
+        [value]="dashboard.suspendedLicenses"
+        icon="block"
+        color="#F59E0B">
+    </app-dashboard-card>
+
+    <app-dashboard-card
+        title="Registered Devices:"
+        [value]="dashboard.registeredDevices"
+        icon="devices"
+        color="#2563EB">
+    </app-dashboard-card>
+
+    <app-dashboard-card
+        title="Pending Mappings:"
+        [value]="dashboard.pendingMappings"
+        icon="receipt_long"
+        color="#9333EA">
+    </app-dashboard-card>
+
+    <app-dashboard-card
+        title="Total Customers:"
+        [value]="dashboard.totalCustomers"
+        icon="groups"
+        color="#06B6D4">
+    </app-dashboard-card>
+
+</div>
+
+<section class="quick-actions">
+    <div class="section-heading">
+        <h2>Welcome!</h2>
+        <p>What would you like to do today?</p>
+    </div>
+
+    <div class="action-grid">
+
+        <a routerLink="/customer" class="action-card">
+            <div class="action-icon">
+                <mat-icon>person_add</mat-icon>
+            </div>
+            <div>
+                <h3>Add Customer</h3>
+                <p>Create a new customer record</p>
+            </div>
+            <mat-icon class="arrow">arrow_forward</mat-icon>
+        </a>
+
+        <a routerLink="/device" class="action-card">
+            <div class="action-icon">
+                <mat-icon>add_to_queue</mat-icon>
+            </div>
+            <div>
+                <h3>Add Device</h3>
+                <p>Register a new device</p>
+            </div>
+            <mat-icon class="arrow">arrow_forward</mat-icon>
+        </a>
+
+
+        <a routerLink="/invoice" class="action-card">
+            <div class="action-icon">
+                <mat-icon>post_add</mat-icon>
+            </div>
+            <div>
+                <h3>Create Invoice</h3>
+                <p>Create a new sales invoice</p>
+            </div>
+            <mat-icon class="arrow">arrow_forward</mat-icon>
+        </a>
+
+
+        <a routerLink="/license" class="action-card">
+            <div class="action-icon">
+                <mat-icon>vpn_key</mat-icon>
+            </div>
+            <div>
+                <h3>Generate License</h3>
+                <p>Generate a device license</p>
+            </div>
+            <mat-icon class="arrow">arrow_forward</mat-icon>
+        </a>
+
+    </div>
+</section>

@@ -1,0 +1,89 @@
+<div class="customer-container">
+    <div class="customer-card">
+        <h2>Enter new Customer</h2>
+        <form [formGroup] = "myForm"
+              autocomplete="off">
+            
+            <! --- CUSTOMER EMAIL --- >
+            <div class="form-group">
+                <label for="customeremail">Email</label>
+            <input
+                id = "customeremail"
+                type = "text"
+                class = "form-control"
+                formControlName = "customeremail"
+                autocomplete="off">
+
+                @if (myForm.get('customeremail')?.hasError('required') &&
+                     myForm.get('customeremail')?.touched) {
+                <div class="error">
+                    Email is required. </div>
+                }
+                @if (myForm.get('customeremail')?.hasError('pattern') &&
+                     myForm.get('customeremail')?.touched) {
+                <div class="error">
+                    Enter a valid Email.</div>
+                }
+            </div>
+
+            <! --- CUSTOMER NAME --- >
+            <div class="form-group">
+                <label for="customername">Name</label>
+            <input
+                id = "customername"
+                type = "text"
+                class = "form-control"
+                formControlName = "customername"
+                autocomplete="off">
+
+                @if (myForm.get('customername')?.hasError('required') &&
+                    myForm.get('customername')?.touched) {
+                <div class="error">
+                    Name is required.</div>
+                }
+            </div>
+
+            <! --- CUSTOMER PHONE --- >
+            <div class="form-group">
+                <label for="customerphone">Phone No.</label>
+            <input
+                id = "customerphone"
+                type = "text"
+                class = "form-control"
+                formControlName = "customerphone"
+                autocomplete="off">
+
+                @if (myForm.get('customerphone')?.hasError('required') &&
+                    myForm.get('customerphone')?.touched) {
+                <div class="error">
+                    Phone no. is required.</div>
+                }
+                @if (myForm.get('customerphone')?.hasError('pattern') &&
+                     myForm.get('customerphone')?.touched) {
+                <div class="error">
+                    Enter a valid Phone no.</div>
+                }
+            </div>
+
+            <! --- CUSTOMER COMPANY --- >
+            <div class="form-group">
+                <label for="company">Company</label>
+            <input
+                id = "company"
+                type = "text"
+                class = "form-control"
+                formControlName = "company"
+                autocomplete="off">
+            </div>
+            
+            <button
+                class = "customer-btn"
+                type = "submit"
+                (click)="generateCustomer()"
+                [disabled] = "myForm.invalid">
+                Create Customer
+            </button>
+
+        </form>
+    </div>
+</div>
