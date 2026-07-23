@@ -2,6 +2,7 @@ using LicenseGenerator.Api.Dtos;
 using LicenseGenerator.Api.Data;
 using LicenseGenerator.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using LicenseGenerator.Api.Dto;
 
 namespace LicenseGenerator.Api.Endpoints;
 
@@ -13,16 +14,24 @@ public static class InvoiceEndpoints {
         var group = app.MapGroup("/api/invoice");
 
     // GET /invoice
-        app.MapGet("/api/invoicelist", (LicenseGeneratorContext context) => {
-            var invoices = context.Invoices.FromSqlRaw("EXEC GetInvoiceByDate").ToList();
-            var dto = invoices.Select( d=> new InvoiceDto(
-                d.InvoiceID!,
-                d.CustomerID!,
-                d.DealerID!,
-                d.SaleDate,
-                d.Amount
-            ));
-            return Results.Ok(dto);
+        app.MapGet("/api/invoicelist", async (LicenseGeneratorContext context, int page=1, int pageSize=10) => {
+            var invoices = await context.Invoices
+                                        .FromSqlInterpolated($"EXEC GetPagedInvoices @Page={page}, @PageSize={pageSize}")
+                                        .ToListAsync();
+            var countResult = await context.InvoiceCounts
+                                           .FromSqlRaw("EXEC GetInvoiceCount")
+                                           .ToListAsync();
+            var totalRecords = countResult.First().TotalRecords;                  
+
+            var result = new PageResultsDto<Invoice>(
+                invoices,
+                page,
+                pageSize,
+                totalRecords,
+                (int)Math.Ceiling( totalRecords/(double)pageSize )
+            );
+
+            return Results.Ok(result);
         })
         .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "InvoiceManager"))
         .WithName(GetInvoicesEndpointName);

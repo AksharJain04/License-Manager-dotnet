@@ -2,6 +2,7 @@ using LicenseGenerator.Api.Dtos;
 using LicenseGenerator.Api.Data;
 using LicenseGenerator.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using LicenseGenerator.Api.Dto;
 
 namespace LicenseGenerator.Api.Endpoints;
 
@@ -13,16 +14,24 @@ public static class DeviceEndpoints {
         var group  = app.MapGroup("/api/device");
         
     // GET /devicelist
-        app.MapGet("/api/devicelist", (LicenseGeneratorContext context) => {
-            var devices = context.Devices.FromSqlRaw("EXEC GetDevicesByStatus").ToList();
-            var dto = devices.Select( d=> new DeviceDto(
-                d.DeviceID!,
-                d.SerialNumber!,
-                d.ModelID!,
-                d.SaleDate,
-                d.DeviceStatus!
-            ));
-            return Results.Ok(dto);
+        app.MapGet("/api/devicelist", async (LicenseGeneratorContext context, int page=1, int pageSize=10 ) => {
+            var devices = await context.Devices
+                                        .FromSqlInterpolated($"EXEC GetPagedDevices @Page={page}, @PageSize={pageSize}")
+                                        .ToListAsync();
+            var countResult = await context.DeviceCounts
+                                           .FromSqlRaw("EXEC GetDeviceCount")
+                                           .ToListAsync();
+            var totalRecords = countResult.First().TotalRecords;                  
+
+            var result = new PageResultsDto<Device>(
+                devices,
+                page,
+                pageSize,
+                totalRecords,
+                (int)Math.Ceiling( totalRecords/(double)pageSize )
+            );
+
+            return Results.Ok(result);
         })
         .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "DeviceManager"))
         .WithName(GetDevicesEndpointName);

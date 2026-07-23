@@ -6,6 +6,7 @@
     max-width: 1365px;
     margin: 35px auto;
     padding: 0 20px;
+    overflow-x: auto;
 }
 
 .container h2 {
@@ -35,6 +36,7 @@
 table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: auto;
 }
 
 thead {
@@ -253,8 +255,10 @@ td:nth-child(7) {
     gap: 8px; /* Spaces the icon and text */
 
     /* Adjusted size to fit both elements */
-    width: 95px; 
+    min-width: 72px; 
+    width: 90px;
     height: 40px;
+    padding:0 18px;
 
     border: none;
     border-radius: 14px;

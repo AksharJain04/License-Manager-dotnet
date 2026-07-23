@@ -1,7 +1,7 @@
 export interface DeviceDto {
     serialNumber: string;
-    deviceId: string;
-    modelId: string;
+    deviceID: string;
+    modelID: string;
     saleDate: string;
     deviceStatus: string;
 }

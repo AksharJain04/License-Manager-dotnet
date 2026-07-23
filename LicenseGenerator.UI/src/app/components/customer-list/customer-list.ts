@@ -2,6 +2,7 @@ import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { Pagination } from '../../shared/pagination/pagination';
 import { CustomerDto } from '../../models/customer-models/customer.dto';
 import { CustomerService } from '../../services/customer service/customer-service';
 
@@ -10,44 +11,52 @@ type CustomerViewModel = CustomerDto & {
   dirty: boolean
 };
 
-interface Customer {
-  customerId: string;
-  customerEmail: string;
-  customerName: string;
-  customerPhone: string;
-  company: string;
-  status: string;
-};
-
 @Component({
   selector: 'app-customer-list',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, Pagination],
   templateUrl: './customer-list.html',
   styleUrl: './customer-list.css',
 })
 
 export class CustomerList implements OnInit {
   customers : CustomerViewModel[] = [];
+  currentPage = 1;
+  pageSize = 10;
+  totalPages = 1;
+  totalRecords = 0;
+
   private customerService = inject(CustomerService);
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit() {
-    this.customerService.getAllCustomers().subscribe({
-      next: data => {
-        this.customers = data.map(customer => ({
+    this.loadcustomers();
+  }
+
+  loadcustomers(){
+    this.customerService.getCustomers(this.currentPage, this.pageSize).subscribe({
+      next: (result) => {
+        this.customers = result.items.map(customer => ({
           ...customer,
           customerStatus: customer.isActive,
           dirty: false
       }
     ));
-    console.log(this.customers);
+    this.currentPage = result.page;
+    this.pageSize = result.pageSize;
+    this.totalPages = result.totalPages;
+    this.totalRecords = result.totalRecords;
     this.cdr.detectChanges();
     },
     error: (err) => {
           console.error(err);
       }
     });
+  }
+
+  onPageChanged(page: number){
+    this.currentPage = page;
+    this.loadcustomers();
   }
 
   onStatusChange(customer: CustomerViewModel) {

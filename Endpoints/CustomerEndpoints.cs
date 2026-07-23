@@ -1,6 +1,8 @@
 using LicenseGenerator.Api.Dtos;
 using LicenseGenerator.Api.Data;
 using LicenseGenerator.Api.Models;
+using Microsoft.EntityFrameworkCore;
+using LicenseGenerator.Api.Dto;
 
 namespace LicenseGenerator.Api.Endpoints;
 
@@ -12,9 +14,24 @@ public static class CustomerEndpoints{
         var group = app.MapGroup("/api/customer");
 
         // GET /customerlist
-        app.MapGet("/api/customerlist", (LicenseGeneratorContext context) => {
-            var customer = context.Customers.Where( c => c.isActive ).ToList();
-            return customer is null? Results.NotFound(): Results.Ok(customer);
+        app.MapGet("/api/customerlist", async (LicenseGeneratorContext context, int page=1, int pageSize=10) => {
+            var customers = await context.Customers
+                                        .FromSqlInterpolated($"EXEC GetPagedCustomers @Page={page}, @PageSize={pageSize}")
+                                        .ToListAsync();
+            var countResult = await context.CustomerCounts
+                                           .FromSqlRaw("EXEC GetCustomerCount")
+                                           .ToListAsync();
+            var totalRecords = countResult.First().TotalRecords;
+
+            var result = new PageResultsDto<Customer>(
+                customers,
+                page,
+                pageSize,
+                totalRecords,
+                (int)Math.Ceiling( totalRecords/(double)pageSize )
+            );
+
+            return Results.Ok(result);
         })
         .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "CustomerManager"))
         .WithName(GetCustomersEndpointName);

@@ -4,10 +4,12 @@ import { Observable } from 'rxjs';
 
 import { CreateCustomerDto } from '../../models/customer-models/create-customer.dto';
 import { CustomerDto } from '../../models/customer-models/customer.dto';
+import { PagedResult } from '../../models/license-models/paged-result.dto';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class CustomerService {
 
   private http = inject(HttpClient);
@@ -15,8 +17,9 @@ export class CustomerService {
   private readonly apiUrl = 'http://localhost:5248/api/customer';
   private readonly clurl = 'http://localhost:5248/api/customerlist';
 
-  getAllCustomers(): Observable<CustomerDto[]> {
-    return this.http.get<CustomerDto[]>(this.clurl);
+  getCustomers( page: number=1, pageSize: number=10): Observable<PagedResult<CustomerDto>> {
+    return this.http.get<PagedResult<CustomerDto>>(
+      `${this.clurl}?page=${page}&pageSize=${pageSize}` );
   }
 
   getCustomer(id: string): Observable<CustomerDto> {

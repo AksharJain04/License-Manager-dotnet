@@ -9,7 +9,6 @@
 }
 
 .login-card{
-
     width:400px;
     background:white;
     border-radius:16px;
@@ -19,13 +18,13 @@
 }
 
 .login-card h1{
-
+    justify-content: center;
     margin:0;
 
 }
 
 .login-card h3{
-
+    margin-top: 5px;
     margin-bottom:35px;
     color:#6b7280;
 

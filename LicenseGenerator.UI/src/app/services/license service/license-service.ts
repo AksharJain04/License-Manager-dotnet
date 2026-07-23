@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable} from 'rxjs';
 import { Injectable, inject } from '@angular/core';
 
+import { PagedResult } from '../../models/license-models/paged-result.dto';
 import { LicenseDto } from '../../models/license-models/license.dto';
 import { CreateLicenseDto } from '../../models/license-models/create-license.dto';
 
@@ -10,7 +11,9 @@ import { CreateLicenseDto } from '../../models/license-models/create-license.dto
 })
 
 export class LicenseService {
+
     private http = inject(HttpClient);
+    
     private readonly apiurl = 'http://localhost:5248/api/licenses';
     private readonly llurl = 'http://localhost:5248/api/licenselist';
 
@@ -18,8 +21,9 @@ export class LicenseService {
         return this.http.post<LicenseDto>(this.apiurl, dto);
     }
 
-    getAllLicenses(): Observable<LicenseDto[]> {
-        return this.http.get<LicenseDto[]>(this.llurl);
+    getLicenses( page: number=1, pageSize: number=10 ): Observable<PagedResult<LicenseDto>> {
+        return this.http.get<PagedResult<LicenseDto>>(
+            `${this.llurl}?page=${page}&pageSize=${pageSize}`);
     }
 
     getLicense(id: string): Observable<LicenseDto> {
