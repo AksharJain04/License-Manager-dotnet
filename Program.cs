@@ -81,6 +81,7 @@ app.MapDeviceEndpoints();
 app.MapInvoiceEndpoints();
 app.MapLicensesEndpoints();
 app.MapMappingEndpoints();
+app.MapDashboardEndpoints();
 app.MapAuthEndpoints();
 app.MapUserEndpoints();
 

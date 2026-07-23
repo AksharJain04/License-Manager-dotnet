@@ -13,11 +13,13 @@ public class LicenseGeneratorContext(DbContextOptions<LicenseGeneratorContext> o
     public DbSet<Device> Devices => Set<Device>();
     public DbSet<License> Licenses => Set<License>();
     public DbSet<InvoiceDeviceMapping> InvoiceDeviceMappings => Set<InvoiceDeviceMapping>();
-    public DbSet<LicenseListDto> LicenseList { get; set; }
+    public DbSet<LicenseListDto> LicenseList { get; set;}
+    public DbSet<DashboardSummary> DashboardSummary => Set<DashboardSummary>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder){
         
         base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Invoice>()
             .Property(l => l.Amount)
             .HasPrecision(10, 2);
@@ -29,5 +31,7 @@ public class LicenseGeneratorContext(DbContextOptions<LicenseGeneratorContext> o
                     });
 
         modelBuilder.Entity<LicenseListDto>().HasNoKey();
+
+        modelBuilder.Entity<DashboardSummary>().HasNoKey();
     }
 }

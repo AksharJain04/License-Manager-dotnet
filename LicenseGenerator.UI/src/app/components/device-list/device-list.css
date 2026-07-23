@@ -8,6 +8,8 @@
 }
 
 .container h2 {
+    width: 92%;
+    margin:0 auto 28px auto;
     margin-bottom: 28px;
     font-size: 42px;
     font-weight: 700;
@@ -20,8 +22,8 @@
 =========================== */
 
 .table-card {
-    width: 100%;          /* Fixed width */
-    margin: auto;         /* Center it */
+    width: 80%;          /* Fixed width */
+    margin: 0 auto;         /* Center it */
     background: #fff;
     border-radius: 18px;
     overflow: hidden;
@@ -46,8 +48,10 @@ thead {
 thead th {
     padding: 14px 16px;
     color: white;
-    text-align: left;
-    font-size: 15px;
+    text-align: center;
+    vertical-align: middle;
+
+    font-size: 16px;
     font-weight: 600;
     letter-spacing: .3px;
     white-space: nowrap;
@@ -56,9 +60,9 @@ thead th {
 tbody td {
     padding: 12px 16px;
     border-bottom: 1px solid #e5e7eb;
-    text-align: left;
+    text-align: center;
     vertical-align: middle;
-    font-size: 15px;
+    font-size: 16px;
     white-space: nowrap;
 }
 
@@ -79,14 +83,74 @@ tbody tr:hover {
    CONTENT FONTS
 =========================== */
 
-td:nth-child(1),
-td:nth-child(2),
-td:nth-child(3),
-td:nth-child(4),
-td:nth-child(5),
-td:nth-child(6) {
+/* Device ID */
+th:nth-child(1){
+    width: 120px;
+}
+
+th:nth-child(2){
+    width: 170px;
+}
+
+th:nth-child(3){
+    width: 140px;
+}
+
+th:nth-child(4){
+    width: 130px;
+}
+
+th:nth-child(5){
+    width: 150px;
+}
+
+th:nth-child(6){
+    width: 100px;
+}
+
+td:nth-child(1){
+    width: 120px;
     font-family: Consolas, monospace;
     letter-spacing: .4px;
+}
+
+/* Serial Number */
+
+td:nth-child(2){
+    width: 170px;
+    font-family: Consolas, monospace;
+    letter-spacing: .4px;
+}
+
+/* Model ID */
+
+td:nth-child(3){
+    width: 140px;
+    font-family: Consolas, monospace;
+    letter-spacing: .4px;
+}
+
+/* Sale Date */
+
+td:nth-child(4){
+    width: 130px;
+    font-family: Consolas, monospace;
+    letter-spacing: .4px;
+}
+
+/* Status */
+
+td:nth-child(5){
+    width: 150px;
+    font-family: Consolas, monospace;
+    letter-spacing: .4px;
+}
+
+/* Save */
+
+th:nth-child(6),
+td:nth-child(6){
+    width: 100px;
 }
 
 
@@ -97,7 +161,11 @@ td:nth-child(6) {
 .status-wrapper {
     position: relative;
     display: inline-block;
+
+    align-items: center;
+    justify-content: center;
     vertical-align: middle;
+
     width: 112px;
     height: 40px;
     border-radius: 20px;
@@ -179,6 +247,7 @@ td:nth-child(6) {
 =========================== */
 
 .save-btn {
+    margin: auto;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -224,14 +293,3 @@ td:nth-child(6) {
     object-fit: contain;
 }
 
-
-/* ===========================
-   ALIGNMENTS
-=========================== */
-
-th:nth-child(5),
-td:nth-child(5),
-th:nth-child(6),
-td:nth-child(6) {
-    text-align: center;
-}

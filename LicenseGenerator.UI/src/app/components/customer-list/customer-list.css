@@ -21,6 +21,7 @@
 =========================== */
 
 .table-card {
+    width: 95%;
     background: #ffffff;
     border-radius: 18px;
     overflow: hidden;
