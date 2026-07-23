@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { DashboardModel } from '../../models/dashboard-models/dashboard-models';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
+import { DashboardDto } from '../../models/dashboard-models/dashboard-models';
+import { Dashboard } from '../../components/dashboard/dashboard';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class DashboardService {
-    getDashboard(): Observable<DashboardModel> {
-        return of ({
-            activeLicenses: 0,
-            inactiveLicenses: 0,
-            suspendedLicenses: 0,
-            registeredDevices: 0,
-            pendingMappings: 0,
-            totalCustomers: 0
-        });
+    private readonly apiUrl = "http://localhost:5248/api/dashboard";
+
+    constructor(private http: HttpClient) {}
+
+    getDashboardSummary(): Observable<DashboardDto> {
+        return this.http.get<DashboardDto>(this.apiUrl);
     }
 }

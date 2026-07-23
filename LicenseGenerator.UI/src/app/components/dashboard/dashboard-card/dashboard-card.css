@@ -16,8 +16,19 @@
 .card:hover{
 
     transform:translateY(-3px);
-    border-color:#2563eb;
     box-shadow:0 8px 18px rgba(37,99,235,.12);
+
+}
+
+.card:hover .icon{
+
+    transform:scale(1.06);
+
+}
+
+.card:hover .icon mat-icon{
+
+    transform:scale(1.08);
 
 }
 
@@ -37,6 +48,7 @@
     display:flex;
     justify-content:center;
     align-items:center;
+    transition:all .25s ease;
 
 }
 
@@ -45,7 +57,7 @@
     font-size:24px;
     width:24px;
     height:24px;
-
+    transition:all .25s ease;
 }
 
 .title{

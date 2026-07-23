@@ -6,9 +6,114 @@
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
     padding: 20px 12px;
+    transition: width .25s ease;
+}
+
+.sidebar.collapsed{
+    width:72px;
+}
+
+.sidebar-header{
+
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:20px;
+
+}
+
+.sidebar.collapsed .sidebar-header{
+    justify-content: center;
+}
+
+.sidebar a {
+
+    display: flex;
+    align-items: center;
+    height: 46px;
+    gap: 15px;
+    color: white;
+    text-decoration: none;
+    padding: 0 16px;
+    border-radius: 10px;
+    transition: .25s;
+    cursor: pointer;
+
+}
+
+.sidebar a:hover {
+
+    background: #374151;
+
+}
+
+.sidebar a.active {
+
+    background: #2563eb;
+
+}
+
+.sidebar:not(.collapsed) .tooltip{
+
+    display:none;
+
+}
+
+.sidebar-footer{
+
+    margin-top:auto;
+
+}
+
+.collapse-btn{
+
+    background:none;
+    border:none;
+    color:white;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:6px;
+    border-radius:8px;
+
+    transition:.25s;
+
+}
+
+.collapse-btn:hover{
+
+    background:#374151;
+
+}
+
+.sidebar span{
+
+    opacity:1;
+    transition:opacity .2s ease;
+
+}
+
+.sidebar.collapsed span{
+
+    display:none;
+    opacity:0;
+    width:0;
+    overflow:hidden;
+    white-space:nowrap;
+
+}
+
+.sidebar.collapsed a,
+.sidebar.collapsed .bottom button{
+
+    gap: 0;
+    justify-content:center;
+
 }
 
 .menu {
@@ -17,6 +122,7 @@
     flex-direction: column;
     gap: 8px;
 
+    flex: 1;
 }
 
 .bottom button {
@@ -27,7 +133,8 @@
     align-items: center;
     gap: 16px;
 
-    padding: 14px 18px;
+    height: 46px;
+    padding: 0 18px;
 
     background: transparent;
     border: none;
@@ -58,34 +165,95 @@
 
 }
 
-.sidebar a {
-
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: white;
-    text-decoration: none;
-    padding: 14px 16px;
-    border-radius: 10px;
-    transition: .25s;
-    cursor: pointer;
-
-}
-
-.sidebar a:hover {
-
-    background: #374151;
-
-}
-
-.sidebar a.active {
-
-    background: #2563eb;
-
-}
 
 mat-icon {
 
     font-size: 22px;
+    width: 24px;
+    height: 24px;
+
+    line-height: 24px;
+
+    flex-shrink: 0;
+
+}
+
+.menu-item{
+
+    position:relative;
+
+}
+
+.tooltip{
+
+    position:absolute;
+
+    left:80px;
+
+    top:50%;
+
+    background:#ffffff;
+
+    color:#1f2937;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    font-size:15px;
+    font-weight:500;
+
+    white-space:nowrap;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.18);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease;
+
+    transform:
+        translateY(-50%)
+        translateX(-8px);
+
+    z-index:1000;
+
+    pointer-events: none;
+
+}
+
+.menu-item:hover .tooltip{
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:
+        translateY(-50%)
+        translateX(0);
+
+    pointer-events: auto;
+}
+
+.tooltip::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-6px;
+
+    top:50%;
+
+    transform:translateY(-50%) rotate(45deg);
+
+    width:12px;
+    height:12px;
+
+    background:white;
 
 }

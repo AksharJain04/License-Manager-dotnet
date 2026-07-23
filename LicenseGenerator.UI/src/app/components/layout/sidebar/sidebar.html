@@ -1,50 +1,80 @@
-<nav class="sidebar">
+<nav class="sidebar"
+     [class.collapsed]="isCollapsed">
+
     <div class="menu">
-        <a
-            routerLink="/"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }">
-            <mat-icon>dashboard</mat-icon>
-            <span>Dashboard</span>
-        </a>
 
-        <a
-            routerLink="/allcustomers"
-            routerLinkActive="active">
-            <mat-icon>groups</mat-icon>
-            <span>Customers</span>
-        </a>
+        <div class="menu-item">
+            <a
+                routerLink="/"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">
+                <mat-icon>dashboard</mat-icon>
+                <span>Dashboard</span>
+            </a>
+            <div class="tooltip" *ngIf="isCollapsed"> Dashboard </div>
+        </div>
 
-        <a
-            routerLink="/alldevices"
-            routerLinkActive="active">
-            <mat-icon>devices</mat-icon>
-            <span>Devices</span>
-        </a>
+        <div class="menu-item">
+            <a
+                routerLink="/allcustomers"
+                routerLinkActive="active">
+                <mat-icon>groups</mat-icon>
+                <span>Customers</span>
+            </a>
+            <div class="tooltip" *ngIf="isCollapsed"> Customers </div>
+        </div>
 
-        <a
-            routerLink="/allinvoices"
-            routerLinkActive="active">
-            <mat-icon>receipt_long</mat-icon>
-            <span>Invoices</span>
-        </a>
+        <div class="menu-item">
+            <a
+                routerLink="/alldevices"
+                routerLinkActive="active">
+                <mat-icon>devices</mat-icon>
+                <span>Devices</span>
+            </a>
+            <div class="tooltip" *ngIf="isCollapsed"> Devices </div>
+        </div>
 
-        <a
-            routerLink="/alllicenses"
-            routerLinkActive="active">
-            <mat-icon>ballot</mat-icon>
-            <span>Licenses</span>
-        </a>
+        <div class="menu-item">
+            <a
+                routerLink="/allinvoices"
+                routerLinkActive="active">
+                <mat-icon>receipt_long</mat-icon>
+                <span>Invoices</span>
+            </a>
+            <div class="tooltip" *ngIf="isCollapsed"> Invoices </div>
+        </div>
 
+        <div class="menu-item">
+            <a
+                routerLink="/alllicenses"
+                routerLinkActive="active">
+                <mat-icon>ballot</mat-icon>
+                <span>Licenses</span>
+            </a>
+            <div class="tooltip" *ngIf="isCollapsed"> Licenses </div>
+        </div>
+        
     </div>
 
-    <div class="bottom">
-        <button
-            type="button"
-            (click)="logout()">
-            <mat-icon>logout</mat-icon>
-            <span>Sign Out</span>
-        </button>
+
+    <div class = "sidebar-footer">
+        <div class="sidebar-header">
+            <button
+                class="collapse-btn"
+                type="button"
+                (click)="toggleSidebar()">
+                <mat-icon> {{ isCollapsed? 'chevron_right' : 'chevron_left' }} </mat-icon>
+            </button>
+        </div>
+
+        <div class="bottom">
+            <button
+                type="button"
+                (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                <span>Sign Out</span>
+            </button>
+        </div>
     </div>
 
 </nav>

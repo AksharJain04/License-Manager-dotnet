@@ -19,8 +19,9 @@
     margin-top: 40px;
 }
 
-.section-heading h2 {
-    justify-items: center;
+.section-heading h1 {
+    font-weight: 700;
+    justify-content: center;
     margin: 0;
     font-size: 24px;
     color: #1f2937;
@@ -28,7 +29,7 @@
 }
 
 .section-heading p {
-    justify-items: center;
+    justify-content: center;
     margin: 6px 0 20px;
     color: #6b7280;
 }
