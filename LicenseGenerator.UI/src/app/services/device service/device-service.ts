@@ -2,20 +2,24 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { PagedResult } from '../../models/license-models/paged-result.dto';
 import { InsertDeviceDto } from '../../models/device-models/insert-device.dto';
 import { DeviceDto } from '../../models/device-models/device.dto';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class DeviceService {
 
   private http = inject(HttpClient);
+  
   private readonly apiUrl = 'http://localhost:5248/api/device';
   private readonly dlUrl = 'http://localhost:5248/api/devicelist';
 
-  getAllDevices(): Observable<DeviceDto[]> {
-    return this.http.get<DeviceDto[]>(this.dlUrl);
+  getDevices( page: number=1, pageSize: number=10 ): Observable<PagedResult<DeviceDto>> {
+    return this.http.get<PagedResult<DeviceDto>>(
+      `${this.dlUrl}?page=${page}&pageSize=${pageSize}`);
   }
 
   getDevice(deviceId: string): Observable<DeviceDto> {

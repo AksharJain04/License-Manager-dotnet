@@ -3,6 +3,7 @@ using LicenseGenerator.Api.Data;
 using Fare;
 using LicenseGenerator.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using LicenseGenerator.Api.Dto;
 
 namespace LicenseGenerator.Api.Endpoints;
 
@@ -15,9 +16,24 @@ public static class LicensesEndpoints {
         var group = app.MapGroup("/api/licenses");
 
     // GET /licenses
-        app.MapGet("/api/licenselist", (LicenseGeneratorContext context) => {
-            var licenses = context.Licenses.FromSqlRaw("EXEC GetAllLicenses").ToList();
-            return Results.Ok(licenses);
+        app.MapGet("/api/licenselist", async (LicenseGeneratorContext context, int page=1, int pageSize=10 ) => {
+            var licenses = await context.Licenses
+                                        .FromSqlInterpolated($"EXEC GetPagedLicenses @Page={page}, @PageSize={pageSize}")
+                                        .ToListAsync();
+            var countResult = await context.LicenseCounts
+                                           .FromSqlRaw("EXEC GetLicenseCount")
+                                           .ToListAsync();
+            var totalRecords = countResult.First().TotalRecords;                  
+
+            var result = new PageResultsDto<License>(
+                licenses,
+                page,
+                pageSize,
+                totalRecords,
+                (int)Math.Ceiling( totalRecords/(double)pageSize )
+            );
+
+            return Results.Ok(result);
         })
         .RequireAuthorization(policy => policy.RequireRole("SuperAdmin", "Admin", "LicenseManager"))
         .WithName(GetLicensesEndpointName);

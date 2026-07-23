@@ -14,11 +14,11 @@
             </thead>
             <tbody>
 
-                @for(device of devices; track device.deviceId){
+                @for(device of devices; track device.deviceID){
                     <tr>
-                        <td>{{ device.deviceId }}</td>
+                        <td>{{ device.deviceID }}</td>
                         <td>{{ device.serialNumber }}</td>
-                        <td>{{ device.modelId }}</td>
+                        <td>{{ device.modelID }}</td>
                         <td>{{ device.saleDate }}</td>
                         <td>
                             <div
@@ -61,5 +61,14 @@
 
             </tbody>
         </table>
+        
+            <div>
+                <app-pagination
+                    [currentPage]="currentPage"
+                    [totalPages]="totalPages"
+                    (pageChanged)="onPageChanged($event)">
+                </app-pagination>
+            </div>
+
     </div>
 </div>

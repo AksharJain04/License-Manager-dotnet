@@ -1,0 +1,33 @@
+<div class="pagination-container">
+
+    <div class="pagination-info">
+        Page {{ currentPage }} of {{ totalPages }}
+    </div>
+
+    <div class="pagination-buttons">
+
+        <button
+            class="page-btn"
+            (click)="previousPage()"
+            [disabled]="currentPage === 1">
+            ❮
+        </button>
+
+        <button
+            *ngFor="let page of pages"
+            class="page-number"
+            [class.active]="page === currentPage"
+            (click)="pageChanged.emit(page)">
+            {{ page }}
+        </button>
+
+        <button
+            class="page-btn"
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages">
+            ❯
+        </button>
+
+    </div>
+
+</div>

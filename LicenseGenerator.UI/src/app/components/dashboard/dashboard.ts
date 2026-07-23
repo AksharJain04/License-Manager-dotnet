@@ -29,7 +29,6 @@ export class Dashboard implements OnInit {
   ngOnInit(): void {
     this.dashboardService.getDashboardSummary().subscribe({
       next: (data) => {
-        console.log(data);
         this.dashboard = data;
         this.cdr.detectChanges();
       },

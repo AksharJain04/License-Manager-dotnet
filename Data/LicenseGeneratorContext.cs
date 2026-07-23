@@ -15,6 +15,10 @@ public class LicenseGeneratorContext(DbContextOptions<LicenseGeneratorContext> o
     public DbSet<InvoiceDeviceMapping> InvoiceDeviceMappings => Set<InvoiceDeviceMapping>();
     public DbSet<LicenseListDto> LicenseList { get; set;}
     public DbSet<DashboardSummary> DashboardSummary => Set<DashboardSummary>();
+    public DbSet<LicenseCountDto> LicenseCounts => Set<LicenseCountDto>();
+    public DbSet<DeviceCountDto> DeviceCounts => Set<DeviceCountDto>();
+    public DbSet<CustomerCountDto> CustomerCounts => Set<CustomerCountDto>();
+    public DbSet<InvoiceCountDto> InvoiceCounts => Set<InvoiceCountDto>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder){
         
@@ -33,5 +37,10 @@ public class LicenseGeneratorContext(DbContextOptions<LicenseGeneratorContext> o
         modelBuilder.Entity<LicenseListDto>().HasNoKey();
 
         modelBuilder.Entity<DashboardSummary>().HasNoKey();
+
+        modelBuilder.Entity<LicenseCountDto>().HasNoKey();
+        modelBuilder.Entity<CustomerCountDto>().HasNoKey();
+        modelBuilder.Entity<InvoiceCountDto>().HasNoKey();
+        modelBuilder.Entity<DeviceCountDto>().HasNoKey();
     }
 }

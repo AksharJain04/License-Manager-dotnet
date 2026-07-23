@@ -2,6 +2,7 @@ import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { Pagination } from '../../shared/pagination/pagination';
 import { LicenseDto } from '../../models/license-models/license.dto';
 import { LicenseService } from '../../services/license service/license-service';
 
@@ -10,43 +11,52 @@ type LicenseViewModel = LicenseDto & {
     dirty: boolean;
 };
 
-interface License {
-  invoiceNumber: string;
-  deviceModel: string;
-  licenseKey: string;
-  serialNumber: string;
-  status: string;
-}
-
 @Component({
   selector: 'app-license-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Pagination],
   templateUrl: './license-list.html',
   styleUrl: './license-list.css',
 })
 
 export class LicenseList implements OnInit{
   licenses: LicenseViewModel[] = [];
+  currentPage = 1;
+  pageSize = 10;
+  totalPages = 1;
+  totalRecords = 0;
+
   private licenseService = inject(LicenseService);
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit() {
-    this.licenseService.getAllLicenses().subscribe({
-      next: (data) => {
-        this.licenses = data.map(license => ({
+    this.loadlicenses();
+  }
+
+  loadlicenses(){
+    this.licenseService.getLicenses(this.currentPage, this.pageSize).subscribe({
+      next: (result) => {
+        this.licenses = result.items.map(license => ({
             ...license,
             originalStatus: license.activationStatus,
             dirty: false
         }
       ));
-      console.log(this.licenses);
+      this.currentPage = result.page;
+      this.pageSize = result.pageSize;
+      this.totalPages = result.totalPages;
+      this.totalRecords = result.totalRecords;
       this.cdr.detectChanges();
       },
       error: (err) => {
             console.error(err);
       }
     });
+  }
+
+  onPageChanged(page: number){
+    this.currentPage = page;
+    this.loadlicenses();
   }
 
   onStatusChange(license: LicenseViewModel) {
