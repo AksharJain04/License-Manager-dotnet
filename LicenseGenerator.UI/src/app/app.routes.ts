@@ -12,9 +12,10 @@ import { guestGuard } from './guards/guest-guard';
 import { InvoiceList } from './components/invoice-list/invoice-list';
 import { DeviceList } from './components/device-list/device-list';
 import { CustomerList } from './components/customer-list/customer-list';
+import { Signup } from './components/signup/signup';
 
 export const routes: Routes = [
-    { path: '', component: Layout, canActivate: [authGuard], 
+   { path: '', component: Layout, canActivate: [authGuard], 
                 children: [{ path: '', component: Dashboard },
 
                         // CREATE PAGES
@@ -28,8 +29,9 @@ export const routes: Routes = [
                            { path: 'allcustomers', component: CustomerList },
                            { path: 'alldevices', component: DeviceList },
                            { path: 'allinvoices', component: InvoiceList }
-                ]},
-    { path: 'login', component: Login, canActivate: [guestGuard]},
-    { path: '**', redirectTo: ''}  // Wildcard route for a 404 page
+                  ]},
+   { path: 'login', component: Login, canActivate: [guestGuard] },
+   { path: 'signup', component: Signup, },
+   { path: '**', redirectTo: ''}  // Wildcard route for a 404 page
 ];
 

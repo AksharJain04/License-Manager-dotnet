@@ -56,47 +56,49 @@ input{
 button{
 
     margin-top:10px;
+    background:#2563eb;
+    color:white;
+    border:none;
     border-radius:8px;
     padding:14px;
     cursor:pointer;
     font-size:16px;
-    width:100%;
 
 }
 
-.login-btn{
+.error-message{
 
-    background:#2563eb;
-    color:white;
-    border:none;
-
-}
-
-.login-btn:hover{
-
-    background:#1d4ed8;
+    color:#dc2626;
+    margin-bottom:16px;
+    font-size:14px;
 
 }
 
-.signup-link{
+.success-message{
+
+    color:#16a34a;
+    margin-bottom:16px;
+    font-size:14px;
+
+}
+
+.login-link{
 
     text-align:center;
     margin-top:20px;
     color:#6b7280;
-    font-size:16px;
 
 }
 
-.signup-link a{
+.login-link a{
 
-    color:#2563eb;
     text-decoration:none;
+    color:#2563eb;
     font-weight:600;
-    cursor:pointer;
 
 }
 
-.signup-link a:hover{
+.login-link a:hover{
 
     text-decoration:underline;
 

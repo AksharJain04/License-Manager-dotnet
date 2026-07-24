@@ -15,11 +15,21 @@
                    formControlName="password">
 
             <button 
+                class="login-btn"
                 type = "submit"
                 [disabled] = "loginForm.invalid"> 
                     Login 
             </button>
 
         </form>
-    </div>
+
+    <p class="signup-link">
+        Don't have an account?
+        <a
+        role="button"
+        class="signup-btn"
+        (click)="gotosignup()">
+        Sign Up
+        </a>
+    </p>
 </div>

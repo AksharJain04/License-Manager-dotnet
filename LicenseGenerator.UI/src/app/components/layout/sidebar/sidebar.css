@@ -68,6 +68,11 @@
 
 .collapse-btn{
 
+    font-size:36px;
+    width:36px;
+    height:36px;
+    line-height:3px;
+
     background:none;
     border:none;
     color:white;
