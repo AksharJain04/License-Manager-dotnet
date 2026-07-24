@@ -94,6 +94,7 @@
     color: #2563eb;
 
     margin-bottom: 12px;
+    transition:all .25s ease;
 }
 
 .action-icon mat-icon{
@@ -128,6 +129,7 @@
 .action-card:hover .action-icon{
 
     transform:scale(1.12);
+    transition:all .25s ease;
 
 }
 

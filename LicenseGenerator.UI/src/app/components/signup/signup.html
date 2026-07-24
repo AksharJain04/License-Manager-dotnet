@@ -1,0 +1,71 @@
+<div class="login-container">
+    <div class="login-card">
+        <h1>Create Account</h1>
+        <h3>Register as a customer</h3>
+
+        <form [formGroup]="signupForm"
+              (ngSubmit)="register()"
+              autocomplete="off">
+
+            <label for="username">
+                Username
+            </label>
+            <input
+                id="username"
+                type="text"
+                name="signup-username"
+                formControlName="username"
+                autocomplete="off">
+
+            <label for="email">
+                Email
+            </label>
+            <input
+                id="email"
+                type="email"
+                name="signup-email"
+                formControlName="email"
+                autocomplete="off">
+
+            <label for="password">
+                Password
+            </label>
+            <input
+                id="password"
+                type="password"
+                name="signup-password"
+                formControlName="password"
+                autocomplete="off">
+
+            <label for="confirmPassword">
+                Confirm Password
+            </label>
+            <input
+                id="confirmPassword"
+                type="password"
+                name="signup-confirmpassword"
+                formControlName="confirmpassword"
+                autocomplete="off">
+
+            <div
+                class="error-message"
+                *ngIf="signupForm.hasError('passwordMismatch')">
+                Passwords do not match.
+            </div>
+
+            <button type="submit"
+                    (click)="register()">
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="login-link">
+            Already have an account?
+            <a routerLink="/login">
+                Login
+            </a>
+        </p>
+
+    </div>
+</div>

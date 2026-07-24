@@ -23,8 +23,10 @@ public static class AuthEndpoints {
             var result = await userManager.CreateAsync(user, dto.Password);
             if (!result.Succeeded) return Results.BadRequest(result.Errors);
 
-            await userManager.AddToRoleAsync(user, "Admin");
-            return Results.Ok("User registered successfully");
+            await userManager.AddToRoleAsync(user, "Customer");
+            return Results.Ok(new {
+                message = "User registered Successfully!"
+            });
         });
 
 

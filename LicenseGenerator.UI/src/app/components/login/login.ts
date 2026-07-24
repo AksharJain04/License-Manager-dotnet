@@ -26,7 +26,11 @@ export class Login {
     password: ['', [Validators.required]]
   });
 
-  login(){
+  gotosignup() {
+    this.router.navigate(["/signup"]);
+  }
+
+  login() {
     if(this.loginForm.invalid) return;
     this.authService.login(
       this.loginForm.getRawValue() as LoginRequest
